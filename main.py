@@ -12,6 +12,7 @@ def convert_image(src_path, out_path):
             im = im.convert('RGB')
         current_width, current_height = im.size
         new_width, new_height = convert_res(current_width, current_height)
+        print(new_width, new_height)
         im.thumbnail((new_width, new_height), Image.ANTIALIAS)
         im.save(out_path, "JPEG")
     except IOError:
@@ -20,14 +21,9 @@ def convert_image(src_path, out_path):
 
 def convert_res(x, y, fit_to = 300):
     biggest = max(x, y)
-    if biggest == x:
-        coef = x / fit_to
-        x = fit_to
-        y = y / coef
-    else:
-        coef = y / fit_to
-        x = x / coef
-        y = fit_to
+    coef = biggest / fit_to
+    x = x // coef
+    y = y // coef
     return x, y
 
 
@@ -52,5 +48,5 @@ def prepare_images_for_vgik(path, ext_to = '.jpg'):
             convert_image(path, out_path)
 
 if __name__ == '__main__':
-    path = r"C:\Users\i.zuykov\Downloads\img"
+    path = r"C:\Users\i.zuykov\Downloads\high_res"
     prepare_images_for_vgik(path)
